@@ -1,0 +1,6 @@
+.metadata
+SDK.log
+
+*/Debug
+*/.cproject
+*/.project
