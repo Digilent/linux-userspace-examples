@@ -227,7 +227,7 @@ int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
 /*
  * Stop the I2C device.
  *
- * @param dev points to the I2C device to be written to
+ * @param dev points to the I2C device to be stopped
  */
 void i2c_stop(struct I2cDevice* dev) {
 	/*

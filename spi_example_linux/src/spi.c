@@ -126,9 +126,6 @@ int spi_transfer(struct SpiDevice *dev, uint8_t *write_buf, uint8_t *read_buf, u
  * Stop the SPI device.
  *
  * @param dev points to the SPI device to be stopped to
- *
- * @return - 0 if the stop procedure succeeded
- *         - negative if the stop procedure failed
  */
 void spi_stop(struct SpiDevice *dev) {
 	close(dev->fd);
