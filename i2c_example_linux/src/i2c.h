@@ -12,7 +12,6 @@
 
 /*
  * Configuration for the I2C device;
- *
  */
 struct I2cDevice {
 	char* filename; /**< Path of the I2C bus, eg: /dev/i2c-0 */
