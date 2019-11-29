@@ -62,7 +62,8 @@ fail_open:
  * @param buf points to the start of buffer to be read into
  * @param buf_len length of the buffer to be read
  *
- * @return - 0 if the read procedure succeeded
+ * @return - number of bytes read if the read procedure succeeded
+ *         - 0 if no bytes were read
  *         - negative if the read procedure failed
  */
 int i2c_read(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
@@ -76,7 +77,8 @@ int i2c_read(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
  * @param buf points to the start of buffer to be written from
  * @param buf_len length of the buffer to be written
 
- * @return - 0 if the read procedure succeeded
+ * @return - number of bytes written if the write procedure succeeded
+ *         - 0 if no bytes were written
  *         - negative if the read procedure failed
  */
 int i2c_write(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
@@ -91,7 +93,8 @@ int i2c_write(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
  * @param buf points to the start of buffer to be read into
  * @param buf_len length of the buffer to be read
  *
- * @return - 0 if the read procedure succeeded
+ * @return - number of bytes read if the read procedure succeeded
+ *         - 0 if no bytes were read
  *         - negative if the read procedure failed
  */
 int i2c_readn_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_len) {
@@ -126,7 +129,8 @@ int i2c_readn_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_l
  * @param buf points to the start of buffer to be written from
  * @param buf_len length of the buffer to be written
  *
- * @return - 0 if the write procedure succeeded
+ * @return - number of bytes written if the write procedure succeeded
+ *         - 0 if no bytes were written
  *         - negative if the write procedure failed
  */
 int i2c_writen_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_len) {
@@ -170,7 +174,8 @@ fail_send:
  * @param dev points to the I2C device to be read from
  * @param reg the register to read from
  *
- * @return the value read from the register, 0 if failed
+ * @return - the value read from the register
+ *         - 0 if the read procedure failed
  */
 uint8_t i2c_read_reg(struct I2cDevice* dev, uint8_t reg) {
 	uint8_t value = 0;
@@ -185,7 +190,8 @@ uint8_t i2c_read_reg(struct I2cDevice* dev, uint8_t reg) {
  * @param reg the register to write to
  * @param value the value to write to the register
  *
- * @return - 0 if the write procedure succeeded
+ * @return - number of bytes written if the write procedure succeeded
+ *         - 0 if no bytes were written
  *         - negative if the write procedure failed
  */
 int i2c_write_reg(struct I2cDevice* dev, uint8_t reg, uint8_t value) {
@@ -199,7 +205,8 @@ int i2c_write_reg(struct I2cDevice* dev, uint8_t reg, uint8_t value) {
  * @param reg the register to write to
  * @param mask the mask to apply to the register
  *
- * @return - 0 if the write procedure succeeded
+ * @return - number of bytes written if the write procedure succeeded
+ *         - 0 if no bytes were written
  *         - negative if the write procedure failed
  */
 int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
@@ -210,7 +217,7 @@ int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
 	value |= mask;
 
 	rc = i2c_write_reg(dev, reg, value);
-	if (rc < 0) {
+	if (rc <= 0) {
 		return rc;
 	}
 
