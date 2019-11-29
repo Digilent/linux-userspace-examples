@@ -10,9 +10,9 @@
 #ifndef SPI_H
 #define SPI_H
 
-#define SPI_SUCCESS 0
-#define SPI_FAILURE -1
-
+/*
+ * Configuration for the SPI device.
+ */
 struct SpiDevice {
 	char *filename; /**< Path of the SPI bus, eg: /dev/spidev1.0 */
 	uint8_t mode; /**< Mode of the SPI bus */
