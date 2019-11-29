@@ -10,9 +10,6 @@
 #ifndef SRC_I2C_H_
 #define SRC_I2C_H_
 
-#define I2C_SUCCESS 0
-#define I2C_FAILURE -1
-
 /*
  * Configuration for the I2C device;
  *
@@ -32,6 +29,6 @@ int i2c_writen_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_
 uint8_t i2c_read_reg(struct I2cDevice* dev, uint8_t reg);
 int i2c_write_reg(struct I2cDevice* dev, uint8_t reg, uint8_t value);
 int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask);
-int i2c_stop(struct I2cDevice* dev);
+void i2c_stop(struct I2cDevice* dev);
 
 #endif /* SRC_I2C_H_ */
