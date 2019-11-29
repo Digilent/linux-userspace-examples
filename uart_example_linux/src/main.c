@@ -21,7 +21,7 @@ int main() {
 	struct UartDevice dev;
 	int rc;
 
-	dev.name = "/dev/ttyUL1";
+	dev.filename = "/dev/ttyUL1";
 	dev.rate = B9600;
 
 	rc = uart_start(&dev, true);
@@ -38,7 +38,7 @@ int main() {
 	printf("loopback_data_len: %d\n", loopback_data_len);
 
 	while (1) {
-		read_data_len = uart_readn(&dev, read_data, MAX_READ_SIZE);
+		read_data_len = uart_reads(&dev, read_data, MAX_READ_SIZE);
 
 		if (read_data_len > 0) {
 			printf("read(%d): %s", read_data_len, read_data);

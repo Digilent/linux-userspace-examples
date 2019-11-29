@@ -16,12 +16,21 @@
 
 #include "uart.h"
 
+/*
+ * Start the UART device.
+ *
+ * @param dev points to the UART device to be started, must have filename and rate populated
+ * @param canonical whether to define some compatibility flags for a canonical interface
+ *
+ * @return - 0 if the starting procedure succeeded
+ *         - negative if the starting procedure failed
+ */
 int uart_start(struct UartDevice* dev, bool canonical) {
 	struct termios *tty;
 	int fd;
 	int rc;
 
-	fd = open(dev->name, O_RDWR | O_NOCTTY);
+	fd = open(dev->filename, O_RDWR | O_NOCTTY);
 	if (fd < 0) {
 		printf("%s: failed to open UART device\r\n", __func__);
 		return fd;
@@ -82,28 +91,62 @@ int uart_start(struct UartDevice* dev, bool canonical) {
 	return 0;
 }
 
+/*
+ * Read a string from the UART device.
+ *
+ * @param dev points to the UART device to be read from
+ * @param buf points to the start of buffer to be read into
+ * @param buf_len length of the buffer to be read
+ *
+ * @return - number of bytes read if the read procedure succeeded
+ *         - negative if the read procedure failed
+ */
+int uart_reads(struct UartDevice* dev, char *buf, size_t buf_len) {
+	int rc;
+
+	rc = read(dev->fd, buf, buf_len - 1);
+	if (rc < 0) {
+		printf("%s: failed to read uart data\r\n", __func__);
+		return rc;
+	}
+
+	buf[rc] = '\0';
+	return rc;
+}
+
+/*
+ * Write data to the UART device.
+ *
+ * @param dev points to the UART device to be written to
+ * @param buf points to the start of buffer to be written from
+ * @param buf_len length of the buffer to be written
+ *
+ * @return - number of bytes written if the write procedure succeeded
+ *         - negative if the write procedure failed
+ */
 int uart_writen(struct UartDevice* dev, char *buf, size_t buf_len) {
 	return write(dev->fd, buf, buf_len);
 }
 
+/*
+ * Write a string to the UART device.
+ *
+ * @param dev points to the UART device to be written to
+ * @param string points to the start of buffer to be written from
+ *
+ * @return - number of bytes written if the write procedure succeeded
+ *         - negative if the write procedure failed
+ */
 int uart_writes(struct UartDevice* dev, char *string) {
 	size_t len = strlen(string);
 	return uart_writen(dev, string, len);
 }
 
-int uart_readn(struct UartDevice* dev, char *buf, size_t buf_len) {
-	size_t received;
-
-	received = read(dev->fd, buf, buf_len - 1);
-	buf[received] = '\0';
-
-	return received;
-}
-
-int uart_reads(struct UartDevice* dev, char *string) {
-	return uart_readn(dev, string, SSIZE_MAX);
-}
-
+/*
+ * Stop the UART device.
+ *
+ * @param dev points to the UART device to be stopped
+ */
 void uart_stop(struct UartDevice* dev) {
 	free(dev->tty);
 }
