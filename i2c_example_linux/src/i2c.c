@@ -1,8 +1,8 @@
 /*
  * i2c.c
  *
- *  Created on: Aug 6, 2019
- *      Author: cosmin
+ * @date 2019/08/09
+ * @author Cosmin Tanislav
  */
 
 #include <linux/i2c-dev.h>
@@ -15,6 +15,14 @@
 
 #include "i2c.h"
 
+/*
+ * Start the I2C device.
+ *
+ * @param dev points to the I2C device to be started, must have filename and addr populated
+ *
+ * @return - I2C_SUCCESS if the starting procedure succeeded
+ *         - I2C_FAILURE if the starting procedure failed
+ */
 int i2c_start(struct I2cDevice* dev) {
 	int fd;
 	int rc;
@@ -46,14 +54,45 @@ fail_open:
 
 }
 
+/*
+ * Read data from the I2C device.
+ *
+ * @param dev points to the I2C device to be read from
+ * @param buf points to the start of buffer to be read into
+ * @param buf_len length of the buffer to be read
+ *
+ * @return - I2C_SUCCESS if the read procedure succeeded
+ *         - I2C_FAILURE if the read procedure failed
+ */
 int i2c_read(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
 	return read(dev->fd, buf, buf_len);
 }
 
+/*
+ * Write data to the I2C device.
+ *
+ * @param dev points to the I2C device to be write to
+ * @param buf points to the start of buffer to be written from
+ * @param buf_len length of the buffer to be written
+
+ * @return - I2C_SUCCESS if the read procedure succeeded
+ *         - I2C_FAILURE if the read procedure failed
+ */
 int i2c_write(struct I2cDevice* dev, uint8_t *buf, size_t buf_len) {
 	return write(dev->fd, buf, buf_len);
 }
 
+/*
+ * Read data from a register of the I2C device.
+ *
+ * @param dev points to the I2C device to be read from
+ * @param reg the register to read from
+ * @param buf points to the start of buffer to be read into
+ * @param buf_len length of the buffer to be read
+ *
+ * @return - I2C_SUCCESS if the read procedure succeeded
+ *         - I2C_FAILURE if the read procedure failed
+ */
 int i2c_readn_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_len) {
 	int rc;
 
@@ -78,6 +117,17 @@ int i2c_readn_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_l
 	return I2C_SUCCESS;
 }
 
+/*
+ * Write data to the register of the I2C device.
+ *
+ * @param dev points to the I2C device to be written to
+ * @param reg the register to write to
+ * @param buf points to the start of buffer to be written from
+ * @param buf_len length of the buffer to be written
+ *
+ * @return - I2C_SUCCESS if the write procedure succeeded
+ *         - I2C_FAILURE if the write procedure failed
+ */
 int i2c_writen_reg(struct I2cDevice* dev, uint8_t reg, uint8_t *buf, size_t buf_len) {
 	uint8_t *full_buf;
 	int full_buf_len;
@@ -114,16 +164,44 @@ fail_send:
 	return I2C_FAILURE;
 }
 
+/*
+ * Read value from a register of the I2C device.
+ *
+ * @param dev points to the I2C device to be read from
+ * @param reg the register to read from
+ *
+ * @return the value read from the register, 0 if failed
+ */
 uint8_t i2c_read_reg(struct I2cDevice* dev, uint8_t reg) {
 	uint8_t value = 0;
 	i2c_readn_reg(dev, reg, &value, 1);
 	return value;
 }
 
+/*
+ * Write value to the register of the I2C device.
+ *
+ * @param dev points to the I2C device to be written to
+ * @param reg the register to write to
+ * @param value the value to write to the register
+ *
+ * @return - I2C_SUCCESS if the write procedure succeeded
+ *         - I2C_FAILURE if the write procedure failed
+ */
 int i2c_write_reg(struct I2cDevice* dev, uint8_t reg, uint8_t value) {
 	return i2c_writen_reg(dev, reg, &value, 1);
 }
 
+/*
+ * Mask value of to a register of the I2C device.
+ *
+ * @param dev points to the I2C device to be written to
+ * @param reg the register to write to
+ * @param mask the mask to apply to the register
+ *
+ * @return - I2C_SUCCESS if the write procedure succeeded
+ *         - I2C_FAILURE if the write procedure failed
+ */
 int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
 	uint8_t value = 0;
 	int rc;
@@ -137,6 +215,14 @@ int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
 	i2c_write_reg(dev, reg, value);
 }
 
+/*
+ * Stop the I2C device.
+ *
+ * @param dev points to the I2C device to be written to
+ *
+ * @return - I2C_SUCCESS if the stop procedure succeeded
+ *         - I2C_FAILURE if the stop procedure failed
+ */
 int i2c_stop(struct I2cDevice* dev) {
 	/*
 	 * Close the I2C bus file descriptor.
