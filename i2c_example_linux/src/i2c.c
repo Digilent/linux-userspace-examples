@@ -206,12 +206,9 @@ int i2c_mask_reg(struct I2cDevice* dev, uint8_t reg, uint8_t mask) {
 	uint8_t value = 0;
 	int rc;
 
-	rc = i2c_readn_reg(dev, reg, &value, 1);
-	if (rc < 0) {
-		return rc;
-	}
-
+	value = i2c_read_reg(dev, reg);
 	value |= mask;
+
 	rc = i2c_write_reg(dev, reg, value);
 	if (rc < 0) {
 		return rc;
