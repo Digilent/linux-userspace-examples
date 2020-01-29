@@ -1,7 +1,7 @@
 # Linux Userspace Examples
 This repository provides linux application demos for common communication protocols: SPI, I2C, UART.
 The Vivado 2019.1 projects are posted on [Vivado configurations for Linux Userspace examples](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-hw) repository (separate branch for each example).
-The Petalinux 2019.1 projects are posted on [Petalinux project for Linux Userspace examples](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-ow) repository (separate branch for each example).
+The Petalinux 2019.1 projects are posted on [Petalinux project for Linux Userspace examples](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-os) repository (separate branch for each example).
 
 ## SPI Demo
 It is implemented using spidev linux spi driver.
