@@ -14,12 +14,14 @@ The Vivado project for the SPI demo is posted [here](https://github.com/Digilent
 
 ### SPI Demo Petalinux configuration
 In order to use the spidev driver, the following node must exist in the device_user.dtsi:
+```
 &axi_quad_spi_0 {
 	spidev@0 {
 		reg = <0>;
 		compatible = "spidev";
 		spi-max-frequency = <25000000>;
 	};
+```
 Petalinux project for the SPI demo is posted [here](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-os/tree/spi_example).
 
 ## I2C Demo
