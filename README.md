@@ -21,6 +21,7 @@ In order to use the spidev driver, the following node must exist in the device_u
 		compatible = "spidev";
 		spi-max-frequency = <25000000>;
 	};
+};
 ```
 Petalinux project for the SPI demo is posted [here](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-os/tree/spi_example).
 
