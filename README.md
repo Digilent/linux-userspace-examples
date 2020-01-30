@@ -2,6 +2,8 @@
 This repository provides linux application demos for common communication protocols: SPI, I2C, UART.
 The Vivado 2019.1 projects are posted on [Vivado configurations for Linux Userspace examples](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-hw) repository (separate branch for each example).
 The Petalinux 2019.1 projects are posted on [Petalinux project for Linux Userspace examples](https://github.com/Digilent/Zybo-Z7-20-PMOD-Comm-os) repository (separate branch for each example).
+The demos are provided as sources files. In order to use the demos, create in SDK a new linux application project and copy the provided demo sources into the new project sources folder, and then refresh the project sources. 
+The demos are further described as used with Digilent Pmods specific to the demonstrated communication (PmodACL2 for SPI, PmodTMP3 for I2C, PmodUSBUART for UART). Still, if these Pmods are not available, the demos can be started and the protocols can be visualized over the specific communication lines. 
 
 ## SPI Demo
 It is implemented using spidev linux spi driver.
